@@ -1,0 +1,20 @@
+org.apache.ibatis.type.Alias 
+  别名注解：给一个完整类名添加一个别名
+ 
+org.apache.ibatis.type.BaseTypeHandler
+  类型转换的一个抽象类，定义转换值的公共抽象方法，具体实现方法由各个子类自己实现
+  setParameter(PreparedStatement ps, int i, T parameter, JdbcType jdbcType)
+  T getResult(ResultSet rs, String columnName)
+  T getResult(ResultSet rs, int columnIndex)
+  T getResult(CallableStatement cs, int columnIndex)
+
+org.apache.ibatis.type.*TypeHandle
+  1、setNonNullParameter(PreparedStatement ps, int i, Object parameter, JdbcType jdbcType)
+    
+  2、getNullableResult(ResultSet rs, String columnName)
+    根据给定列名(columnName)从sql结果集获取值
+  3、getNullableResult(ResultSet rs, int columnIndex)
+    根据给定列指针(columnIndex)从sql结果集获取值
+  3、getNullableResult(CallableStatement cs, int columnIndex)
+    根据给定列指针(columnIndex)从存储过程返回值获取对应值
+  
