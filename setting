@@ -54,3 +54,5 @@ XML 配置文件（configuration XML）
       <setting name="jdbcTypeForNull" value="OTHER"/>
       <setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
     </settings>
+    
+    
