@@ -1,0 +1,108 @@
+/*
+ * Copyright(c) by 2005~2006 Huawei Tefchnologies , Ltd. All Rights Reserved
+ *
+ */
+package com.huawei.piece.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * <p>TODO .</p>
+ * <p>时间 ： 2017年6月28日</p>
+ * <p>Copyright 1988-2005, Huawei Tech. Co., Ltd.</p>
+ * @author  zWX385704
+ * @version 1.0
+ */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited
+public @interface Column
+{
+    String value();
+}
+
+
+/*
+ * Copyright(c) by 2005~2006 Huawei Tefchnologies , Ltd. All Rights Reserved
+ *
+ */
+package com.huawei.piece.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Inherited;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+/**
+ * <p>TODO .</p>
+ * <p>时间 ： 2017年6月28日</p>
+ * <p>Copyright 1988-2005, Huawei Tech. Co., Ltd.</p>
+ * @author  zWX385704
+ * @version 1.0
+ */
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Inherited()
+public @interface Table
+{
+    String value();
+}
+
+
+/*
+ * Copyright(c) by 2005~2006 Huawei Tefchnologies , Ltd. All Rights Reserved
+ *
+ */
+package com.huawei.piece.main;
+
+import java.lang.reflect.Field;
+
+import com.huawei.piece.annotation.Column;
+import com.huawei.piece.annotation.Table;
+import com.huawei.piece.bean.Employee;
+
+/**
+ * <p>TODO .</p>
+ * <p>时间 ： 2017年6月28日</p>
+ * <p>Copyright 1988-2005, Huawei Tech. Co., Ltd.</p>
+ * @author  zWX385704
+ * @version 1.0
+ */
+public class Appication
+{
+    public static void main(String[] args)
+    {
+        Employee emp = new Employee();
+        emp.setEmpNo("70664");
+        emp.setEmpName("我是谁");
+        emp.setAddress("我在哪儿");
+        //        emp.setSalary(88888.8);
+        
+        StringBuilder sBuilder = new StringBuilder();
+        Class clazz = emp.getClass();
+        boolean exist = clazz.isAnnotationPresent(Table.class);
+        if (!exist)
+        {
+            return;
+        }
+        Table table = (Table) clazz.getAnnotation(Table.class);
+        sBuilder.append("select * from ").append(table.value()).append(" where 1=1 ");
+        Field[] columns = clazz.getDeclaredFields();
+        for (Field field : columns)
+        {
+            boolean sub = field.isAnnotationPresent(Column.class);
+            if (!sub)
+            {
+                return;
+            }
+            Column c = field.getAnnotation(Column.class);
+            sBuilder.append(" and ").append(c.value()).append("=").append("'").append(emp.getAddress()).append("'");
+        }
+        System.out.println(sBuilder);
+    }
+}
